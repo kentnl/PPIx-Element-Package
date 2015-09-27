@@ -11,7 +11,6 @@ my @files = (
     't/00-compile/lib_PPIx_Element_Package_pm.t',
     't/00-report-prereqs.dd',
     't/00-report-prereqs.t',
-    't/basic.t',
     't/corpus/dual_scope.pm',
     't/corpus/no_package.pm',
     't/corpus/single_labelled_scope.pm',
@@ -19,6 +18,7 @@ my @files = (
     't/dual_scope.t',
     't/no_package.t',
     't/package_self_ownership.t',
+    't/self-parse.t',
     't/single_labelled_scope.t',
     't/single_package.t'
 );
