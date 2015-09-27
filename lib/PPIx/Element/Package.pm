@@ -24,21 +24,25 @@ Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
 sub identify_package {
   my ($element) = @_;
+
+  # Packages are their own owners
   return $element if $element->isa('PPI::Statement::Package');
+
+  # Elements without parents have no Package
   return unless $element->can('parent') and defined $element->parent;
+
+  # Any element which is directly a child of a Package is also the Package
+  # ( These are the package tokens themselves )
   my $parent = $element->parent;
   return $parent if $parent->isa('PPI::Statement::Package');
-  return identify_package($parent) unless $parent->can('children');
-  my (@previous_siblings);
-  my $self_addr = refaddr($element);
 
-  for my $sibling ( $parent->children ) {
-    last if $self_addr eq refaddr $sibling;
-    push @previous_siblings, $sibling;
-  }
-  for my $previous_sibling ( reverse @previous_siblings ) {
-    return $previous_sibling if $previous_sibling->isa('PPI::Statement::Package');
-  }
+  # Check any sibling nodes previous to the current one
+  # and return the nearest Package, if present.
+  my $package = identify_package_in_previous_siblings($element);
+  return $package if defined $package;
+
+  # Otherwise, recursively assume the Package of whatever your
+  # parent is.
   return identify_package($parent);
 }
 
