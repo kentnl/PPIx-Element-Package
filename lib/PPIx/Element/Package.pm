@@ -164,7 +164,7 @@ Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 =head2 identify_package_namespace
 
 Recursively find the C<Package> as per C<identify_package> and return the
-imagined namespace associated.
+imagined name-space associated.
 
   my $name = identify_package_namespace( $element );
 
