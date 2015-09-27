@@ -46,6 +46,18 @@ sub identify_package {
   return identify_package($parent);
 }
 
+=func identify_package_namespace
+
+Recursively find the C<Package> as per C<identify_package> and return the
+imagined name-space associated.
+
+  my $name = identify_package_namespace( $element );
+
+This is mostly a convenience wrapper that returns C<main> safely when no
+package can be otherwise determined.
+
+=cut
+
 sub identify_package_namespace {
   my ($element) = @_;
   my $package = identify_package($element);
