@@ -2,17 +2,13 @@ use strict;
 use warnings;
 
 use Test::More;
-
 use PPI::Util qw( _Document );
-use PPI;
-use PPIx::Element::Package qw( identify_package_namespace );
+use lib 't/lib';
+use PkgCheck;
 
 my $document = _Document('lib/PPIx/Element/Package.pm');
 
-my (@subs) = @{ $document->find('PPI::Statement::Sub') };
-
-for my $sub (@subs) {
-  is( identify_package_namespace($sub), 'PPIx::Element::Package', "Namespace for sub " . $sub->name . " is the expected value", );
-}
+package_is $_, 'PPIx::Element::Package', "Namespace for sub " . $_->name . " is the expected value"
+  for @{ $document->find('PPI::Statement::Sub') };
 
 done_testing;
