@@ -29,10 +29,10 @@ sub find_package {
   my $parent = $token->parent;
   return $parent if $parent->isa('PPI::Statement::Package');
   return find_package($parent) unless $parent->can('children');
-  my (@all_siblings) = $parent->children();
   my (@previous_siblings);
   my $self_addr = refaddr($token);
-  for my $sibling (@all_siblings) {
+
+  for my $sibling ( $parent->children ) {
     last if $self_addr eq refaddr $sibling;
     push @previous_siblings, $sibling;
   }
