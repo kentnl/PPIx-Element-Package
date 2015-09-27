@@ -57,6 +57,14 @@ sub identify_package_namespace {
   return $package->namespace;
 }
 
+
+
+
+
+
+
+
+
 sub identify_package_in_previous_sibling {
   my ( $parent, $element ) = @_;
 
@@ -136,6 +144,11 @@ or when the owning C<Statement::Package>'s name-space is somehow undefined.
 Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
   my $package = PPIx::Element::Package::identify_package( $element );
+
+=head2 identify_package_in_previous_sibling
+
+Non-Recursively find a C<Package> statement that is a direct child of
+C<$parent> and preceeds C<$element>.
 
 =head1 LOGIC
 
