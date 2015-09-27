@@ -12,7 +12,7 @@ our $VERSION = '0.001000';
 
 use Scalar::Util qw( refaddr );
 use Exporter 5.57 qw( import );
-our @EXPORT_OK = qw( identify_package identify_package_namespace );
+our @EXPORT_OK = qw( identify_package identify_package_namespace identify_package_in_previous_siblings );
 
 =func identify_package
 
@@ -48,6 +48,39 @@ sub identify_package_namespace {
   return 'main' unless defined $package;
   return 'main' unless defined $package->namespace;
   return $package->namespace;
+}
+
+=func identify_package_in_previous_siblings
+
+Non-Recursively find a C<Package> statement that is the nearest preceding sibling
+of C<$element>.
+
+  my $package = identify_package_in_previous_siblings( $element );
+
+Returns the nearest C<PPI::Statement::Package>, or C<undef> if none can be
+found in the siblings.
+
+=cut
+
+sub identify_package_in_previous_siblings {
+  my ($element) = @_;
+
+  # elements without parents or children can't hold siblings
+  return unless $element->can('parent') and $element->parent and $element->parent->can('children');
+
+  my $self_addr = refaddr($element);
+  my $last_package;
+
+  for my $sibling ( $element->parent->children ) {
+
+    # Record most recently found Package
+    $last_package = $sibling if $sibling->isa('PPI::Statement::Package');
+
+    # Return whatever package was found as soon as we find ourselves
+    # ( Because we don't care about Packages after ourselves.
+    return $last_package if $self_addr eq refaddr($sibling);
+  }
+  return;
 }
 
 1;
