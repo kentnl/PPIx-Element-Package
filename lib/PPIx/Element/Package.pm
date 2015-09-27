@@ -4,7 +4,7 @@ use warnings;
 
 package PPIx::Element::Package;
 
-our $VERSION = '0.001000'; # TRIAL
+our $VERSION = '0.001000';
 
 # ABSTRACT: Derive the package an element is defined in
 
@@ -30,11 +30,10 @@ sub identify_package {
   return $element if $element->isa('PPI::Statement::Package');
 
   # Elements without parents have no Package
-  return unless $element->can('parent') and defined $element->parent;
+  return unless $element->can('parent') and defined ( my $parent = $element->parent );
 
   # Any element which is directly a child of a Package is also the Package
   # ( These are the package tokens themselves )
-  my $parent = $element->parent;
   return $parent if $parent->isa('PPI::Statement::Package');
 
   # Check any sibling nodes previous to the current one
