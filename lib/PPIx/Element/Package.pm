@@ -62,11 +62,7 @@ sub identify_package_namespace {
   my ($element) = @_;
   my $package = identify_package($element);
 
-  return 'main' unless defined $package;
-
-  return 'main' unless defined $package->namespace;
-
-  return $package->namespace;
+  return ( defined $package and defined $package->namespace ) ? $package->namespace : 'main';
 }
 
 =func identify_package_in_previous_siblings
