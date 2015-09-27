@@ -4,7 +4,7 @@ use warnings;
 
 package PPIx::Element::Package;
 
-our $VERSION = '0.001000';
+our $VERSION = '0.001000'; # TRIAL
 
 # ABSTRACT: Derive the package an element is defined in
 
@@ -30,7 +30,7 @@ sub identify_package {
   return $element if $element->isa('PPI::Statement::Package');
 
   # Elements without parents have no Package
-  return unless $element->can('parent') and defined ( my $parent = $element->parent );
+  return unless $element->can('parent') and my $parent = $element->parent;
 
   # Any element which is directly a child of a Package is also the Package
   # ( These are the package tokens themselves )
@@ -85,12 +85,13 @@ sub identify_package_in_previous_siblings {
   my ($element) = @_;
 
   # elements without parents or children can't hold siblings
-  return unless $element->can('parent') and $element->parent and $element->parent->can('children');
+  return unless $element->can('parent') and my $parent = $element->parent;
+  return unless $parent->can('children');
 
   my $self_addr = refaddr($element);
   my $last_package;
 
-  for my $sibling ( $element->parent->children ) {
+  for my $sibling ( $parent->children ) {
 
     # Record most recently found Package
     $last_package = $sibling if $sibling->isa('PPI::Statement::Package');
