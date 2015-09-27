@@ -24,14 +24,10 @@ Call this function if you want to avoid using the C<x_> functions on the element
 
 sub find_package {
   my ($token) = @_;
-  if ( $token->isa('PPI::Statement::Package') ) {
-    return $token;
-  }
+  return $token if $token->isa('PPI::Statement::Package');
   return unless $token->can('parent') and defined $token->parent;
   my $parent = $token->parent;
-  if ( $parent->isa('PPI::Statement::Package') ) {
-    return $parent;
-  }
+  return $parent if $parent->isa('PPI::Statement::Package');
   return find_package($parent) unless $parent->can('children');
   my (@all_siblings) = $parent->children();
   my (@previous_siblings);
