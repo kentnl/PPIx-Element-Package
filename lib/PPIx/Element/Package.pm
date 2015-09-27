@@ -65,6 +65,10 @@ sub identify_package_namespace {
 
 
 
+
+
+
+
 sub identify_package_in_previous_sibling {
   my ($element) = @_;
 
@@ -147,10 +151,13 @@ Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
 =head2 identify_package_in_previous_sibling
 
-Non-Recursively find a C<Package> statement that is a direct child of
-C<$parent> and preceeds C<$element>.
+Non-Recursively find a C<Package> statement that is the nearest preceding sibling
+of C<$element>.
 
-  my $package = identify
+  my $package = identify_package_in_previous_sibling( $element );
+
+Returns the nearest C<PPI::Statement::Package>, or C<undef> if none can be
+found in the siblings.
 
 =head1 LOGIC
 
