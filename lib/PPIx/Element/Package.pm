@@ -46,6 +46,18 @@ sub identify_package {
   return identify_package($parent);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 sub identify_package_namespace {
   my ($element) = @_;
   my $package = identify_package($element);
@@ -148,6 +160,16 @@ or when the owning C<Statement::Package>'s name-space is somehow undefined.
 Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
   my $package = PPIx::Element::Package::identify_package( $element );
+
+=head2 identify_package_namespace
+
+Recursively find the C<Package> as per C<identify_package> and return the
+imagined namespace associated.
+
+  my $name = identify_package_namespace( $element );
+
+This is mostly a convenience wrapper that returns C<main> safely when no
+package can be otherwise determined.
 
 =head2 identify_package_in_previous_sibling
 
