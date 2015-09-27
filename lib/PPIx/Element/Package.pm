@@ -23,31 +23,59 @@ our @EXPORT_OK = qw( identify_package identify_package_namespace );
 
 
 sub identify_package {
-  my ($token) = @_;
-  return $token if $token->isa('PPI::Statement::Package');
-  return unless $token->can('parent') and defined $token->parent;
-  my $parent = $token->parent;
-  return $parent if $parent->isa('PPI::Statement::Package');
-  return identify_package($parent) unless $parent->can('children');
-  my (@previous_siblings);
-  my $self_addr = refaddr($token);
+  my ($element) = @_;
 
-  for my $sibling ( $parent->children ) {
-    last if $self_addr eq refaddr $sibling;
-    push @previous_siblings, $sibling;
-  }
-  for my $previous_sibling ( reverse @previous_siblings ) {
-    return $previous_sibling if $previous_sibling->isa('PPI::Statement::Package');
-  }
+  # Packages are their own owners
+  return $element if $element->isa('PPI::Statement::Package');
+
+  # Elements without parents have no Package
+  return unless $element->can('parent') and defined $element->parent;
+
+  # Any element which is directly a child of a Package is also the Package
+  # ( These are the package tokens themselves )
+  my $parent = $element->parent;
+  return $parent if $parent->isa('PPI::Statement::Package');
+
+  # Check any sibling nodes previous to the current one
+  # and return the nearest Package, if present.
+  my $package = identify_package_in_previous_sibling( $parent, $element );
+  return $package if defined $package;
+
+  # Otherwise, recursively assume the Package of whatever your
+  # parent is.
   return identify_package($parent);
 }
 
 sub identify_package_namespace {
-  my ($token) = @_;
-  my $package = identify_package($token);
+  my ($element) = @_;
+  my $package = identify_package($element);
+
   return 'main' unless defined $package;
+
   return 'main' unless defined $package->namespace;
+
   return $package->namespace;
+}
+
+sub identify_package_in_previous_sibling {
+  my ( $parent, $element ) = @_;
+
+  # parent nodes without children can't hold siblings
+  return unless $parent->can('children');
+
+  my $self_addr = refaddr($element);
+  my $last_package;
+
+  for my $sibling ( $parent->children ) {
+
+    # Record most recently found Package
+    $last_package = $sibling if $sibling->isa('PPI::Statement::Package');
+
+    # Return whatever package was found as soon as we find ourselves
+    # ( Because we don't care about Packages after ourselves.
+    return $last_package if $self_addr eq refaddr($sibling);
+  }
+  return;
 }
 
 1;
