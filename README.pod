@@ -131,6 +131,12 @@ ask there.
 It has however a performance advantage due to being a single-pass indexing
 sweep with all subsequent checks being a simple array look-up.
 
+=head1 THANKS
+
+To L<< C<MITHALDU>|https://metacpan.org/author/MITHALDU >> for feedback
+and code review on the initial design. All lurking bugs still present I can
+take full credit for.
+
 =head1 AUTHOR
 
 Kent Fredric <kentnl@cpan.org>
