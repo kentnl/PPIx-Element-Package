@@ -13,8 +13,8 @@ my @subs = @{ $document->find('PPI::Statement::Sub') };
 my ($inner) = grep { $_->name eq 'in_scope' } @subs;
 my ($outer) = grep { $_->name eq 'out_of_scope' } @subs;
 
-package_is( $inner, 'Example', 'sub inside the scope after the package is owned by the package' );
-package_is( $outer, 'Outer',   'sub outside the scope after the package is owned by Outer' );
+package_is $inner, 'Example', 'sub inside the scope after the package is owned by the package';
+package_is $outer, 'Outer',   'sub outside the scope after the package is owned by Outer';
 
 subtest 'in_scope children' => sub {
   package_is $_, 'Example', 'Children of inner sub are owned by the package' for $inner->children;
