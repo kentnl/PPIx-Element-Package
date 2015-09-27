@@ -24,7 +24,9 @@ sub forward();
 my \$code = q//;
 
 {
+
   package Chaos;
+
   sub chaos {
 
   }
