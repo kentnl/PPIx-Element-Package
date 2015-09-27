@@ -38,7 +38,7 @@ sub identify_package {
 
   # Check any sibling nodes previous to the current one
   # and return the nearest Package, if present.
-  my $package = identify_package_in_previous_sibling( $parent, $element );
+  my $package = identify_package_in_previous_sibling($element);
   return $package if defined $package;
 
   # Otherwise, recursively assume the Package of whatever your
@@ -66,15 +66,15 @@ sub identify_package_namespace {
 
 
 sub identify_package_in_previous_sibling {
-  my ( $parent, $element ) = @_;
+  my ($element) = @_;
 
-  # parent nodes without children can't hold siblings
-  return unless $parent->can('children');
+  # elements without parents or children can't hold siblings
+  return unless $element->can('parent') and $element->parent and $element->parent->can('children');
 
   my $self_addr = refaddr($element);
   my $last_package;
 
-  for my $sibling ( $parent->children ) {
+  for my $sibling ( $element->parent->children ) {
 
     # Record most recently found Package
     $last_package = $sibling if $sibling->isa('PPI::Statement::Package');
@@ -149,6 +149,8 @@ Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
 Non-Recursively find a C<Package> statement that is a direct child of
 C<$parent> and preceeds C<$element>.
+
+  my $package = identify
 
 =head1 LOGIC
 
