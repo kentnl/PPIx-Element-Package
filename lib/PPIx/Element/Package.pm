@@ -23,14 +23,14 @@ Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 =cut
 
 sub identify_package {
-  my ($token) = @_;
-  return $token if $token->isa('PPI::Statement::Package');
-  return unless $token->can('parent') and defined $token->parent;
-  my $parent = $token->parent;
+  my ($element) = @_;
+  return $element if $element->isa('PPI::Statement::Package');
+  return unless $element->can('parent') and defined $element->parent;
+  my $parent = $element->parent;
   return $parent if $parent->isa('PPI::Statement::Package');
   return identify_package($parent) unless $parent->can('children');
   my (@previous_siblings);
-  my $self_addr = refaddr($token);
+  my $self_addr = refaddr($element);
 
   for my $sibling ( $parent->children ) {
     last if $self_addr eq refaddr $sibling;
@@ -43,50 +43,11 @@ sub identify_package {
 }
 
 sub identify_package_namespace {
-  my ($token) = @_;
-  my $package = identify_package($token);
+  my ($element) = @_;
+  my $package = identify_package($element);
   return 'main' unless defined $package;
   return 'main' unless defined $package->namespace;
   return $package->namespace;
-}
-
-{
-  use PPI::Element;
-  package    # Hide From PAUSE
-    PPI::Element;
-
-=x_method x_package
-
-Find the logical "owner" package of an C<Element>
-
-  my $package = $element->x_package;
-
-Returns C<undef> if one cannot be found.
-
-=cut
-
-  sub x_package {
-    my ($self) = @_;
-    return PPIx::Element::Package::identify_package($self);
-  }
-
-=x_method x_package_namespace
-
-Find the name-space of the logical owner package.
-
-  my $package = $element->x_package_namespace;
-
-Returns C<main> if one cannot be found, or one can be found and its C<namespace> value is not defined.
-
-=cut
-
-  sub x_package_namespace {
-    my ($self) = @_;
-    my $package = $self->x_package;
-    return 'main' unless defined $package;
-    return 'main' unless defined $package->namespace;
-    return $package->namespace;
-  }
 }
 
 1;
@@ -94,30 +55,30 @@ Returns C<main> if one cannot be found, or one can be found and its C<namespace>
 =head1 SYNOPSIS
 
   use PPI;
-  use PPIx::Element::Package;
+  use PPIx::Element::Package qw( identify_package identify_package_namespace );
 
   # Do your normal PPI stuff here.
 
   # Get the logical enclosing package or undef if one cannot be discovered
-  my $package = $element->x_package;
+  my $package = identify_package( $element );
 
   # Get the name of the logical enclosing package, or main if one cannot be discovered
-  my $namespace = $element->x_package_namespace;
+  my $namespace = identify_package_namespace( $element );
 
 =head1 DESCRIPTION
 
 This module aims to determine the scope any L<< C<PPI::Element>|PPI::Element >>
 ( which includes L<< C<Nodes>|PPI::Node >> and L<< C<Tokens>|PPI::Token >> ) is defined in.
 
-It adds two utility methods on the C<PPI::Element> class as follows:
+It provides two utility methods as follows:
 
 =over 4
 
-=item C<x_package> - The Logical L<<
+=item C<identify_package> - The Logical L<<
 C<PPI::Statement::Package>|PPI::Statement::Package
 >> that owns the C<Element>
 
-=item C<x_package_namespace> - The name-space of the logical C<<
+=item C<identify_package_namespace> - The name-space of the logical C<<
 PPI::Statement::Package >> that owns the element.
 
 =back
