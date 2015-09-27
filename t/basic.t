@@ -15,7 +15,7 @@ subtest "Subs are in expected packages" => sub {
   my $expected = {
     'x_package'           => 'PPI::Element',
     'x_package_namespace' => 'PPI::Element',
-    'find_package'        => 'PPIx::Element::Package',
+    'identify_package'        => 'PPIx::Element::Package',
   };
 
   for my $sub (@subs) {

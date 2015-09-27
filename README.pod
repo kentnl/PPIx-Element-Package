@@ -65,11 +65,11 @@ Returns C<main> if one cannot be found, or one can be found and its C<namespace>
 
 =head1 FUNCTIONS
 
-=head2 find_package
+=head2 identify_package
 
-Call this function if you want to avoid using the C<x_> functions on the elements themselves.
+Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
-  my $package = PPIx::Element::Package::find_package( $element );
+  my $package = PPIx::Element::Package::identify_package( $element );
 
 =head1 LOGIC
 

@@ -12,23 +12,23 @@ our $VERSION = '0.001000';
 
 use Scalar::Util qw( refaddr );
 
-our @EXPORT_OK = qw( find_package );
+our @EXPORT_OK = qw( identify_package );
 
-=func find_package
+=func identify_package
 
-Call this function if you want to avoid using the C<x_> functions on the elements themselves.
+Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
-  my $package = PPIx::Element::Package::find_package( $element );
+  my $package = PPIx::Element::Package::identify_package( $element );
 
 =cut
 
-sub find_package {
+sub identify_package {
   my ($token) = @_;
   return $token if $token->isa('PPI::Statement::Package');
   return unless $token->can('parent') and defined $token->parent;
   my $parent = $token->parent;
   return $parent if $parent->isa('PPI::Statement::Package');
-  return find_package($parent) unless $parent->can('children');
+  return identify_package($parent) unless $parent->can('children');
   my (@previous_siblings);
   my $self_addr = refaddr($token);
 
@@ -39,7 +39,7 @@ sub find_package {
   for my $previous_sibling ( reverse @previous_siblings ) {
     return $previous_sibling if $previous_sibling->isa('PPI::Statement::Package');
   }
-  return find_package($parent);
+  return identify_package($parent);
 }
 
 {
@@ -59,7 +59,7 @@ Returns C<undef> if one cannot be found.
 
   sub x_package {
     my ($self) = @_;
-    return PPIx::Element::Package::find_package($self);
+    return PPIx::Element::Package::identify_package($self);
   }
 
 =x_method x_package_namespace
