@@ -4,7 +4,7 @@ use warnings;
 
 package PPIx::Element::Package;
 
-our $VERSION = '0.001000';
+our $VERSION = '0.001001';
 
 # ABSTRACT: Derive the package an element is defined in
 
