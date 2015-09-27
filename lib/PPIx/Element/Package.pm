@@ -4,7 +4,7 @@ use warnings;
 
 package PPIx::Element::Package;
 
-our $VERSION = '0.001000';
+our $VERSION = '0.001000'; # TRIAL
 
 # ABSTRACT: Derive the package an element is defined in
 
@@ -12,7 +12,7 @@ our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Scalar::Util qw( refaddr );
 use Exporter 5.57 qw( import );
-our @EXPORT_OK = qw( identify_package identify_package_namespace );
+our @EXPORT_OK = qw( identify_package identify_package_namespace identify_package_in_previous_siblings );
 
 
 
@@ -39,7 +39,7 @@ sub identify_package {
 
   # Check any sibling nodes previous to the current one
   # and return the nearest Package, if present.
-  my $package = identify_package_in_previous_sibling($element);
+  my $package = identify_package_in_previous_siblings($element);
   return $package if defined $package;
 
   # Otherwise, recursively assume the Package of whatever your
@@ -82,7 +82,7 @@ sub identify_package_namespace {
 
 
 
-sub identify_package_in_previous_sibling {
+sub identify_package_in_previous_siblings {
   my ($element) = @_;
 
   # elements without parents or children can't hold siblings
@@ -173,12 +173,12 @@ imagined name-space associated.
 This is mostly a convenience wrapper that returns C<main> safely when no
 package can be otherwise determined.
 
-=head2 identify_package_in_previous_sibling
+=head2 identify_package_in_previous_siblings
 
 Non-Recursively find a C<Package> statement that is the nearest preceding sibling
 of C<$element>.
 
-  my $package = identify_package_in_previous_sibling( $element );
+  my $package = identify_package_in_previous_siblings( $element );
 
 Returns the nearest C<PPI::Statement::Package>, or C<undef> if none can be
 found in the siblings.
