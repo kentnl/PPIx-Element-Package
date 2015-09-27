@@ -12,7 +12,7 @@ our $VERSION = '0.001000';
 
 use Scalar::Util qw( refaddr );
 
-our @EXPORT_OK = qw( identify_package );
+our @EXPORT_OK = qw( identify_package identify_package_namespace );
 
 =func identify_package
 
@@ -40,6 +40,14 @@ sub identify_package {
     return $previous_sibling if $previous_sibling->isa('PPI::Statement::Package');
   }
   return identify_package($parent);
+}
+
+sub identify_package_namespace {
+  my ($token) = @_;
+  my $package = identify_package($token);
+  return 'main' unless defined $package;
+  return 'main' unless defined $package->namespace;
+  return $package->namespace;
 }
 
 {
