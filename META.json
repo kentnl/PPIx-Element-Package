@@ -97,7 +97,6 @@
       "runtime" : {
          "requires" : {
             "Exporter" : "5.57",
-            "PPI::Element" : "0",
             "Scalar::Util" : "0",
             "perl" : "5.006",
             "strict" : "0",

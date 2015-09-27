@@ -3,11 +3,11 @@ PPIx::Element::Package
 This module aims to determine the scope any "PPI::Element" ( which
 includes "Nodes" and "Tokens" ) is defined in.
 
-It adds two utility methods on the "PPI::Element" class as follows:
+It provides two utility methods as follows:
 
-"x_package" - The Logical "PPI::Statement::Package" that owns the
+"identify_package" - The Logical "PPI::Statement::Package" that owns the
 "Element"
-"x_package_namespace" - The name-space of the logical
+"identify_package_namespace" - The name-space of the logical
 "PPI::Statement::Package" that owns the element.
 
 The latter of these is just a convenience wrapper on top of "x_package"

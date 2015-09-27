@@ -13,8 +13,6 @@ subtest "Subs are in expected packages" => sub {
   my (@subs) = @{ $document->find('PPI::Statement::Sub') };
 
   my $expected = {
-    'x_package'                  => 'PPI::Element',
-    'x_package_namespace'        => 'PPI::Element',
     'identify_package'           => 'PPIx::Element::Package',
     'identify_package_namespace' => 'PPIx::Element::Package',
   };

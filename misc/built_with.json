@@ -58,7 +58,6 @@
       "ExtUtils::MakeMaker" : "7.10",
       "File::Spec" : "3.56_02",
       "PPI" : "1.220",
-      "PPI::Element" : "1.220",
       "PPI::Util" : "1.220",
       "Pod::Coverage::TrustPod" : "0.100003",
       "Scalar::Util" : "1.42_002",
