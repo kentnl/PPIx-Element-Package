@@ -4,26 +4,22 @@ use warnings;
 use Test::More;
 
 use PPI::Util qw( _Document );
-use PPIx::Element::Package qw( identify_package_namespace );
+use lib 't/lib';
+use PkgCheck;
 
-my $document  = _Document('t/corpus/dual_scope.pm');
-my $namespace = 'Example';
+my $document = _Document('t/corpus/dual_scope.pm');
 
 my @subs = @{ $document->find('PPI::Statement::Sub') };
 my ($inner) = grep { $_->name eq 'in_scope' } @subs;
 my ($outer) = grep { $_->name eq 'out_of_scope' } @subs;
 
-is( identify_package_namespace($inner), 'Example', 'sub inside the scope after the package is owned by the package' );
-is( identify_package_namespace($outer), 'Outer',   'sub outside the scope after the package is owned by Outer' );
+package_is( $inner, 'Example', 'sub inside the scope after the package is owned by the package' );
+package_is( $outer, 'Outer',   'sub outside the scope after the package is owned by Outer' );
 
 subtest 'in_scope children' => sub {
-  for my $child ( $inner->children ) {
-    is( identify_package_namespace($child), 'Example', 'Children of inner sub are owned by the package' );
-  }
+  package_is $_, 'Example', 'Children of inner sub are owned by the package' for $inner->children;
 };
 subtest 'out_of_scope children' => sub {
-  for my $child ( $outer->children ) {
-    is( identify_package_namespace($child), 'Outer', 'Children of outer sub are owned by Outer' );
-  }
+  package_is $_, 'Outer', 'Children of outer sub are owned by Outer' for $outer->children;
 };
 done_testing;

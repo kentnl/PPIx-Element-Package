@@ -4,19 +4,13 @@ use warnings;
 use Test::More;
 
 use PPI::Util qw( _Document );
-use PPIx::Element::Package qw( identify_package_namespace );
+use lib 't/lib';
+use PkgCheck;
 
-my $document  = _Document('t/corpus/no_package.pm');
-my $namespace = 'main';
+my $document = _Document('t/corpus/no_package.pm');
 
-for my $token ( $document->tokens ) {
-  is( identify_package_namespace($token), $namespace, "all tokens in packageless doc are in namespace $namespace" )
-    or diag $token->class, ' => ', explain $token->content;
-}
-for my $element ( @{ $document->find('PPI::Node') } ) {
-  is( identify_package_namespace($element), $namespace, "all nodes in packageless doc are in namespace $namespace" )
-    or diag $element->class, ' => ', explain $element->content;
+package_is $_, 'main', "all tokens in packageless doc are in namespace main" for $document->tokens;
 
-}
+package_is $_, 'main', "all nodes in packageless doc are in namespace main" for @{ $document->find('PPI::Node') };
 
 done_testing;

@@ -16,6 +16,7 @@ my @files = (
     't/corpus/single_labelled_scope.pm',
     't/corpus/single_package.pm',
     't/dual_scope.t',
+    't/lib/PkgCheck.pm',
     't/no_package.t',
     't/package_self_ownership.t',
     't/self-parse.t',
