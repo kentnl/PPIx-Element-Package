@@ -4,17 +4,15 @@ use warnings;
 
 package PPIx::Element::Package;
 
-our $VERSION = '0.001000'; # TRIAL
+our $VERSION = '0.001000';
 
 # ABSTRACT: Derive the package an element is defined in
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Scalar::Util qw( refaddr );
-
-our @EXPORT_OK = qw( find_package );
-
-
+use Exporter 5.57 qw( import );
+our @EXPORT_OK = qw( identify_package identify_package_namespace );
 
 
 
@@ -22,21 +20,19 @@ our @EXPORT_OK = qw( find_package );
 
 
 
-sub find_package {
+
+
+sub identify_package {
   my ($token) = @_;
-  if ( $token->isa('PPI::Statement::Package') ) {
-    return $token;
-  }
+  return $token if $token->isa('PPI::Statement::Package');
   return unless $token->can('parent') and defined $token->parent;
   my $parent = $token->parent;
-  if ( $parent->isa('PPI::Statement::Package') ) {
-    return $parent;
-  }
+  return $parent if $parent->isa('PPI::Statement::Package');
   return find_package($parent) unless $parent->can('children');
-  my (@all_siblings) = $parent->children();
   my (@previous_siblings);
   my $self_addr = refaddr($token);
-  for my $sibling (@all_siblings) {
+
+  for my $sibling ( $parent->children ) {
     last if $self_addr eq refaddr $sibling;
     push @previous_siblings, $sibling;
   }
@@ -44,6 +40,14 @@ sub find_package {
     return $previous_sibling if $previous_sibling->isa('PPI::Statement::Package');
   }
   return find_package($parent);
+}
+
+sub identify_package_namespace {
+  my ($token) = @_;
+  my $package = identify_package($token);
+  return 'main' unless defined $package;
+  return 'main' unless defined $package->namespace;
+  return $package->namespace;
 }
 
 {
@@ -63,7 +67,7 @@ sub find_package {
 
   sub x_package {
     my ($self) = @_;
-    return PPIx::Element::Package::find_package($self);
+    return PPIx::Element::Package::identify_package($self);
   }
 
 
@@ -156,11 +160,11 @@ Returns C<main> if one cannot be found, or one can be found and its C<namespace>
 
 =head1 FUNCTIONS
 
-=head2 find_package
+=head2 identify_package
 
-Call this function if you want to avoid using the C<x_> functions on the elements themselves.
+Identifies the logical owner C<PPI::Statement::Package> for C<$element>
 
-  my $package = PPIx::Element::Package::find_package( $element );
+  my $package = PPIx::Element::Package::identify_package( $element );
 
 =head1 LOGIC
 

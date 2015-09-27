@@ -54,6 +54,7 @@
       "Dist::Zilla::Plugin::UploadToCPAN" : "5.039",
       "Dist::Zilla::PluginBundle::Author::KENTNL" : "2.025002",
       "English" : "1.09",
+      "Exporter" : "5.72",
       "ExtUtils::MakeMaker" : "7.10",
       "File::Spec" : "3.56_02",
       "PPI" : "1.220",

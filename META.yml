@@ -24,6 +24,7 @@ provides:
     file: lib/PPIx/Element/Package.pm
     version: '0.001000'
 requires:
+  Exporter: '5.57'
   PPI::Element: '0'
   Scalar::Util: '0'
   perl: '5.006'
