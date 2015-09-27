@@ -11,7 +11,7 @@ our $VERSION = '0.001000';
 # AUTHORITY
 
 use Scalar::Util qw( refaddr );
-
+use Exporter 5.57 qw( import );
 our @EXPORT_OK = qw( identify_package identify_package_namespace );
 
 =func identify_package

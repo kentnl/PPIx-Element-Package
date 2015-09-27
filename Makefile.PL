@@ -17,6 +17,7 @@ my %WriteMakefileArgs = (
   "MIN_PERL_VERSION" => "5.006",
   "NAME" => "PPIx::Element::Package",
   "PREREQ_PM" => {
+    "Exporter" => "5.57",
     "PPI::Element" => 0,
     "Scalar::Util" => 0,
     "strict" => 0,
@@ -37,6 +38,7 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "Exporter" => "5.57",
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "PPI" => 0,
