@@ -456,11 +456,6 @@
                      },
                      {
                         "class" : "Pod::Weaver::Section::Collect",
-                        "name" : "Extension Methods",
-                        "version" : "4.012"
-                     },
-                     {
-                        "class" : "Pod::Weaver::Section::Collect",
                         "name" : "FUNCTIONS",
                         "version" : "4.012"
                      },
