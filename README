@@ -1,0 +1,41 @@
+PPIx::Element::Package
+
+This module aims to determine the scope any "PPI::Element" ( which
+includes "Nodes" and "Tokens" ) is defined in.
+
+It provides two utility methods as follows:
+
+"identify_package" - The Logical "PPI::Statement::Package" that owns the
+"Element"
+"identify_package_namespace" - The name-space of the logical
+"PPI::Statement::Package" that owns the element.
+
+The latter of these is just a convenience wrapper on top of "x_package"
+that returns "main" when either the owning "Statement::Package" cannot
+be found, or when the owning "Statement::Package"'s name-space is
+somehow undefined.
+
+INSTALLATION
+
+This is a Perl module distribution. It should be installed with whichever
+tool you use to manage your installation of Perl, e.g. any of
+
+  cpanm .
+  cpan  .
+  cpanp -i .
+
+Consult http://www.cpan.org/modules/INSTALL.html for further instruction.
+Should you wish to install this module manually, the procedure is
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
+COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2015 by Kent Fredric
+<kentfredric@gmail.com>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.

@@ -1,0 +1,7 @@
+package Example;
+{
+
+  sub foo {
+
+  }
+}
