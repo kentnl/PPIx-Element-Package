@@ -22,6 +22,7 @@ our @EXPORT_OK = qw( identify_package identify_package_namespace );
 
 
 
+
 sub identify_package {
   my ($element) = @_;
 
@@ -157,7 +158,8 @@ or when the owning C<Statement::Package>'s name-space is somehow undefined.
 
 =head2 identify_package
 
-Identifies the logical owner C<PPI::Statement::Package> for C<$element>
+Upwards-Recursively identifies the logical owner C<PPI::Statement::Package> for
+C<$element>.
 
   my $package = PPIx::Element::Package::identify_package( $element );
 
