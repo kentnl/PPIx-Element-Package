@@ -13,7 +13,15 @@ my @files = (
     't/00-report-prereqs.t',
     't/basic.t',
     't/contorions.t',
-    't/corpus/LineSub_A.pm'
+    't/corpus/LineSub_A.pm',
+    't/corpus/dual_scope.pm',
+    't/corpus/no_package.pm',
+    't/corpus/single_labelled_scope.pm',
+    't/corpus/single_package.pm',
+    't/dual_scope.t',
+    't/no_package.t',
+    't/single_labelled_scope.t',
+    't/single_package.t'
 );
 
 eol_unix_ok($_, { trailing_whitespace => 1 }) foreach @files;
