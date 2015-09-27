@@ -49,8 +49,11 @@ sub identify_package {
 sub identify_package_namespace {
   my ($element) = @_;
   my $package = identify_package($element);
+
   return 'main' unless defined $package;
+
   return 'main' unless defined $package->namespace;
+
   return $package->namespace;
 }
 
