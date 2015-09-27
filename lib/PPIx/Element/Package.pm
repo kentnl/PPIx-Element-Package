@@ -4,7 +4,7 @@ use warnings;
 
 package PPIx::Element::Package;
 
-our $VERSION = '0.001000'; # TRIAL
+our $VERSION = '0.001001'; # TRIAL
 
 # ABSTRACT: Derive the package an element is defined in
 
@@ -113,7 +113,7 @@ PPIx::Element::Package - Derive the package an element is defined in
 
 =head1 VERSION
 
-version 0.001000
+version 0.001001
 
 =head1 SYNOPSIS
 

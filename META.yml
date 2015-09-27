@@ -23,7 +23,7 @@ name: PPIx-Element-Package
 provides:
   PPIx::Element::Package:
     file: lib/PPIx/Element/Package.pm
-    version: '0.001000'
+    version: '0.001001'
 requires:
   Exporter: '5.57'
   Scalar::Util: '0'
@@ -34,4 +34,4 @@ resources:
   bugtracker: https://github.com/kentnl/PPIx-Element-Package/issues
   homepage: https://github.com/kentnl/PPIx-Element-Package
   repository: https://github.com/kentnl/PPIx-Element-Package.git
-version: '0.001000'
+version: '0.001001'
